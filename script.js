@@ -1,3 +1,4 @@
+// about page
 const btn = document.getElementById("toggleBtn");
 const text = document.getElementById("aboutText");
 
