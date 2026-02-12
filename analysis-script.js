@@ -1,13 +1,9 @@
-/* 
-   analysis-script.js 
-*/
 
-//  VARIABLES 
 let chartInstance = null;
 let currentFilteredSales = [];
 let currentGroupedData = [];
 
-// CURRENCY (Kenyan Shillings) 
+
 const formatKsh = (value) => {
     if (value === undefined || value === null) return 'Ksh 0.00';
     return new Intl.NumberFormat('en-KE', {
@@ -24,7 +20,7 @@ const getAllSales = () => {
     if (!data) return [];
     let sales = JSON.parse(data);
     
-    // Normalize any old records (so they work immediately)
+   
     sales = sales.map(sale => {
         if (sale.saleId !== undefined && sale.id === undefined) {
             sale.id = sale.saleId;
@@ -38,7 +34,7 @@ const getAllSales = () => {
             sale.profitLoss = sale.profit;
             delete sale.profit;
         }
-        // Ensure all fields exist
+       
         sale.id = sale.id ?? Date.now() + Math.random();
         sale.quantity = sale.quantity ?? 0;
         sale.totalCost = sale.totalCost ?? 0;
@@ -51,7 +47,7 @@ const getAllSales = () => {
     return sales;
 };
 
-//  FILTER LOGIC 
+
 const filterByPeriod = (sales, period, start = null, end = null) => {
     const now = new Date();
 
@@ -82,7 +78,7 @@ const filterByPeriod = (sales, period, start = null, end = null) => {
     }
 };
 
-// GROUP DATA BY PERIOD 
+
 const groupByPeriod = (sales, groupType) => {
     const groups = {};
 
@@ -123,7 +119,7 @@ const groupByPeriod = (sales, groupType) => {
     return Object.values(groups);
 };
 
-//  UPDATE SUMMARY CARDS
+
 const updateSummaryCards = (filteredSales) => {
     let totalCost = 0, totalSales = 0, totalItems = 0;
 
@@ -141,7 +137,7 @@ const updateSummaryCards = (filteredSales) => {
     document.getElementById('itemsSold').textContent = totalItems;
 };
 
-// UPDATE TABLE – FIXED: ALWAYS ADDS data-period-index 
+
 const updateTable = (groupedData) => {
     const tbody = document.getElementById('tableBody');
     if (!tbody) {
@@ -167,7 +163,7 @@ const updateTable = (groupedData) => {
             statusText = 'Loss';
         }
 
-        //  CRITICAL: data-period-index MUST be present for click to work
+       
         html += `<tr data-period-index="${index}">
             <td>${g.period}</td>
             <td>${g.items}</td>
@@ -200,7 +196,7 @@ const showIndividualSales = (periodIndex) => {
     const salesList = periodGroup.salesData || [];
     const periodLabel = periodGroup.period || 'Unknown period';
 
-    //  Check if modal exists
+   
     const modal = document.getElementById('salesModal');
     if (!modal) {
         console.error('❌ showIndividualSales: Modal element #salesModal not found');
@@ -217,7 +213,7 @@ const showIndividualSales = (periodIndex) => {
         return;
     }
 
-    //  Populate modal 
+  
     modalPeriodLabel.textContent = periodLabel;
 
     if (salesList.length === 0) {
@@ -246,18 +242,16 @@ const showIndividualSales = (periodIndex) => {
         modalBody.innerHTML = rows;
     }
 
-    //  Show modal 
     modal.classList.add('show');
 
-    // Attach delete event listeners 
+    
     document.querySelectorAll('.btn-delete-sale').forEach(btn => {
-        // Remove any existing listeners to avoid duplicates
         btn.removeEventListener('click', handleDeleteClick);
         btn.addEventListener('click', handleDeleteClick);
     });
 };
 
-// Helper for delete click (to allow removeEventListener)
+
 function handleDeleteClick(e) {
     e.stopPropagation();
     const saleId = this.dataset.saleId;
@@ -274,7 +268,7 @@ const closeModal = () => {
     }
 };
 
-//  UPDATE CHART 
+
 const updateChart = (groupedData) => {
     const canvas = document.getElementById('profitChart');
     if (!canvas) {
@@ -329,7 +323,7 @@ const updateChart = (groupedData) => {
     });
 };
 
-//  EXPORT SALES DATA TO JSON FILE
+
 const exportSalesData = () => {
     const salesData = getAllSales();
     const dataStr = JSON.stringify(salesData, null, 2);
@@ -352,7 +346,7 @@ const exportSalesData = () => {
     }
 };
 
-//  IMPORT SALES DATA FROM JSON FILE 
+
 const importSalesData = (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -404,7 +398,7 @@ const importSalesData = (event) => {
     event.target.value = '';
 };
 
-//  SAVE CURRENT VIEW STATE
+
 const saveViewState = () => {
     const activePeriodBtn = document.querySelector('.period-btn.active');
     const period = activePeriodBtn ? activePeriodBtn.dataset.period : 'day';
@@ -428,7 +422,7 @@ const saveViewState = () => {
     }
 };
 
-//  LOAD SAVED VIEW STATE 
+
 const loadSavedViewState = () => {
     const savedState = localStorage.getItem('analysisViewState');
     if (!savedState) return false;
@@ -461,7 +455,7 @@ const loadSavedViewState = () => {
     }
 };
 
-//  MASTER REFRESH FUNCTION 
+
 const refreshDashboard = (selectedPeriod = 'day') => {
     const allSales = getAllSales();
     const start = document.getElementById('startDate')?.value || '';
@@ -478,11 +472,10 @@ const refreshDashboard = (selectedPeriod = 'day') => {
     updateChart(grouped);
 };
 
-// EVENT LISTENERS
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🚀 Analysis page initializing...');
 
-    // Try to restore saved view; else set default last 30 days 
     const hasSavedState = loadSavedViewState();
     
     if (!hasSavedState) {
@@ -495,7 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (endInput) endInput.value = today.toISOString().split('T')[0];
     }
 
-    // PERIOD BUTTONS 
+    
     const periodBtns = document.querySelectorAll('.period-btn');
     periodBtns.forEach(btn => {
         btn.addEventListener('click', function () {
@@ -505,7 +498,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    //  APPLY DATE RANGE
+   
     const applyBtn = document.getElementById('applyDateBtn');
     if (applyBtn) {
         applyBtn.addEventListener('click', () => {
@@ -513,13 +506,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    //  SAVE VIEW 
+    
     const saveBtn = document.getElementById('saveViewBtn');
     if (saveBtn) {
         saveBtn.addEventListener('click', saveViewState);
     }
 
-    //  EXPORT 
+    
     const exportBtn = document.getElementById('exportDataBtn');
     if (exportBtn) {
         exportBtn.addEventListener('click', exportSalesData);
@@ -535,14 +528,14 @@ document.addEventListener('DOMContentLoaded', () => {
         importFile.addEventListener('change', importSalesData);
     }
 
-    //  DRILL-DOWN: CLICK TABLE ROW – HARDENED VERSION 
+    
     const tableBody = document.getElementById('tableBody');
     if (tableBody) {
         tableBody.addEventListener('click', (e) => {
             const row = e.target.closest('tr');
             if (!row) return;
             
-            // Ignore the "no data" placeholder row
+           
             if (row.querySelector('.no-data')) return;
 
             const periodIndex = row.dataset.periodIndex;
@@ -557,7 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('❌ tableBody element not found – cannot attach click listener');
     }
 
-    //  MODAL CLOSE EVENTS 
+    
     const modal = document.getElementById('salesModal');
     if (modal) {
         const closeBtn = document.querySelector('.modal-close');
@@ -572,14 +565,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-       // AUTO‑REFRESH when a sale is made in inventory tab
+       
 window.addEventListener('storage', (e) => {
     if (e.key === 'salesData') {
         const activePeriod = document.querySelector('.period-btn.active')?.dataset.period || 'day';
         refreshDashboard(activePeriod);
     }
 });
-    //  INITIAL LOAD 
+   
     const activePeriod = document.querySelector('.period-btn.active')?.dataset.period || 'day';
     refreshDashboard(activePeriod);
     console.log('✅ Initial refresh complete');
