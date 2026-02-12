@@ -21,27 +21,34 @@ const formatKsh = (value) => {
 // DATA ACCESS 
 const getAllSales = () => {
     const data = localStorage.getItem('salesData');
-    return data ? JSON.parse(data) : [];
-};
-
-const saveAllSales = (salesArray) => {
-    localStorage.setItem('salesData', JSON.stringify(salesArray));
-};
-
-//  DELETE A SINGLE SALE BY ID
-const deleteSale = (saleId) => {
-    if (!confirm('Are you sure you want to delete this sale? This cannot be undone.')) {
-        return false;
-    }
-
-    let allSales = getAllSales();
-    const updatedSales = allSales.filter(sale => sale.id !== saleId);
-    saveAllSales(updatedSales);
-    closeModal();
+    if (!data) return [];
+    let sales = JSON.parse(data);
     
-    const activePeriod = document.querySelector('.period-btn.active')?.dataset.period || 'day';
-    refreshDashboard(activePeriod);
-    return true;
+    // Normalize any old records (so they work immediately)
+    sales = sales.map(sale => {
+        if (sale.saleId !== undefined && sale.id === undefined) {
+            sale.id = sale.saleId;
+            delete sale.saleId;
+        }
+        if (sale.quantitySold !== undefined && sale.quantity === undefined) {
+            sale.quantity = sale.quantitySold;
+            delete sale.quantitySold;
+        }
+        if (sale.profit !== undefined && sale.profitLoss === undefined) {
+            sale.profitLoss = sale.profit;
+            delete sale.profit;
+        }
+        // Ensure all fields exist
+        sale.id = sale.id ?? Date.now() + Math.random();
+        sale.quantity = sale.quantity ?? 0;
+        sale.totalCost = sale.totalCost ?? 0;
+        sale.totalSale = sale.totalSale ?? 0;
+        sale.profitLoss = sale.profitLoss ?? 0;
+        sale.itemName = sale.itemName ?? 'Unknown';
+        sale.saleDate = sale.saleDate ?? new Date().toISOString();
+        return sale;
+    });
+    return sales;
 };
 
 //  FILTER LOGIC 
@@ -565,7 +572,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
+       // AUTO‑REFRESH when a sale is made in inventory tab
+window.addEventListener('storage', (e) => {
+    if (e.key === 'salesData') {
+        const activePeriod = document.querySelector('.period-btn.active')?.dataset.period || 'day';
+        refreshDashboard(activePeriod);
+    }
+});
     //  INITIAL LOAD 
     const activePeriod = document.querySelector('.period-btn.active')?.dataset.period || 'day';
     refreshDashboard(activePeriod);

@@ -126,53 +126,47 @@ function displayItems() {
     itemsList.appendChild(table);
 }
 
-// Record a sale for an item
+// Record a sale for an item – FIXED for analysis integration
 function recordSale(item) {
     const quantityInput = prompt(`Enter quantity sold for "${item.name}" (available: ${item.quantity}):`);
-    
     if (quantityInput === null) return;
-    
     const quantitySold = parseInt(quantityInput);
-    
     if (isNaN(quantitySold) || quantitySold <= 0) {
         alert('Please enter a valid quantity');
         return;
     }
-    
     if (quantitySold > item.quantity) {
         alert('Quantity sold cannot exceed available quantity');
         return;
     }
     
-    // Create sale record
+    // --- SALE OBJECT WITH EXACT PROPERTY NAMES ANALYSIS EXPECTS ---
     const sale = {
-        saleId: Date.now(),
+        id: Date.now(),               // NOT saleId
         itemName: item.name,
         buyPrice: item.buyPrice,
         salePrice: item.sellPrice,
-        quantitySold: quantitySold,
+        quantity: quantitySold,       // NOT quantitySold
         totalCost: item.buyPrice * quantitySold,
         totalSale: item.sellPrice * quantitySold,
-        profit: (item.sellPrice - item.buyPrice) * quantitySold,
+        profitLoss: (item.sellPrice - item.buyPrice) * quantitySold, // NOT profit
         saleDate: new Date().toISOString()
     };
     
-    // Get existing sales data
+    // Save sale
     let salesData = JSON.parse(localStorage.getItem('salesData')) || [];
     salesData.push(sale);
     localStorage.setItem('salesData', JSON.stringify(salesData));
     
-    // Reduce inventory quantity
+    // Reduce inventory
     let items = JSON.parse(localStorage.getItem('inventoryItems')) || [];
     items = items.map(i => {
-        if (i.id === item.id) {
-            i.quantity -= quantitySold;
-        }
+        if (i.id === item.id) i.quantity -= quantitySold;
         return i;
     });
     localStorage.setItem('inventoryItems', JSON.stringify(items));
     
-    alert(`Sale recorded! ${quantitySold} units of ${item.name} sold for Ksh ${sale.totalSale.toFixed(2)}`);
+    alert(`✅ Sold ${quantitySold} × ${item.name}`);
     displayItems();
 }
 
