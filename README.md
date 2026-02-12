@@ -17,8 +17,18 @@ The system provides:
 - A Contact page for feedback pursoses
 The application helps sellers understand how their business is performing by tracking total sales, total costs, net profit/loss, and items sold within selected date ranges.
 
+## Technologies Used
+- HTML
+- Java Script
+- CSS
+
+## Authors
+- Alex
+- Asher
+- Calvin
+- Ruth
 
 ## Live Demo
 
-()
+(https://sawtoothbirch.github.io/Final-Project/)
 
