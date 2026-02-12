@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Tracker - Analysis</title>
+    <link rel="stylesheet" href="analysis.css">   
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-chart-bar"></i> Profit/Loss Analysis</h1>
+            <p>Analyze your sales performance by day, week, or month</p>
+        </header>
+        
+        <nav class="navbar">
+    <h1 class="logo">KeepUp</h1>
+
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="Inventory.html">Inventory</a></li>
+        <li><a href="analysis.html" class="active">Analysis</a></li>
+        <li><a href="Contact.html">Contact</a></li>
+    </ul>
+</nav>
+
+        <main>
+            <div class="period-selector">
+                <h2>Select Analysis Period</h2>
+               
+                
+             
+                    
+                    <div class="form-group">
+                        <label for="end-date"><i class="fas fa-calendar"></i> End Date</label>
+                        <input type="date" id="end-date">
+                    </div>
+                    
+                    <button id="apply-range" class="filter-btn">
+                        <i class="fas fa-filter"></i> Apply Date Range
+                    </button>
+                </div>
+            </div>
+            
+            <div class="analysis-results">
+                <div class="summary-cards">
+                    <div class="summary-card total-sales">
+                        <h3>Total Sales</h3>
+                        <p class="amount" id="total-sales">Ksh 0.00</p>
+                        <p class="summary-label">Revenue from all sales</p>
+                    </div>
+                    
+                    <div class="summary-card total-cost">
+                        <h3>Total Cost</h3>
+                        <p class="amount" id="total-cost">Ksh 0.00</p>
+                        <p class="summary-label">Cost of all items sold</p>
+                    </div>
+                    
+                    <div class="summary-card net-profit">
+                        <h3>Net Profit/Loss</h3>
+                        <p class="amount" id="net-profit">Ksh 0.00</p>
+                        <p class="summary-label">Total profit or loss</p>
+                    </div>
+                    
+                    <div class="summary-card items-sold">
+                        <h3>Items Sold</h3>
+                        <p class="amount" id="items-sold">0</p>
+                        <p class="summary-label">Number of items sold</p>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h2>Profit/Loss Chart</h2>
+                    <div class="chart-wrapper">
+                        <canvas id="profitChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="detailed-analysis">
+                    <h2>Detailed Breakdown</h2>
+                    <div class="table-container">
+                        <table id="analysis-table">
+                            <thead>
+                                <tr>
+                                    <th>Period</th>
+                                    <th>Items Sold</th>
+                                    <th>Total Cost</th>
+                                    <th>Total Sales</th>
+                                    <th>Profit/Loss</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="analysis-data">
+                                <!-- Data will be populated by JavaScript -->
+                                <tr>
+                                    <td colspan="6" class="no-data">No sales data available. Record sales first.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+        </main>
+        
+        <footer>
+            <p>Sales Tracker &copy; 2026 | Profit/Loss Analysis System</p>
+        </footer>
+    </div>
+    
+    <!-- Include Chart.js for charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="analysis-script.js"></script>
+</body>  
+</html>

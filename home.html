@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KeepUp | Home</title>
+
+    
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+    
+    <header>
+        <nav class="navbar">
+            <h1 class="logo">KeepUp</h1>
+
+            
+            <ul class="nav-links">
+                <li><a href="home.html" class="active">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="Inventory.html">Inventory</a></li>
+                <li><a href="analysis.html">Analysis</a></li>
+                <li><a href="Contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    
+    <main class="home">
+
+        
+        <section class="hero">
+            <h2>Understand Your Business Performance</h2>
+            <p>
+                A simple platform that helps sellers monitor sales,
+                inventory, and overall business performance.
+            </p>
+        </section>
+
+        
+        <section class="seller-form">
+            <h3>Search Business Records</h3>
+
+            
+            <form>
+                <label for="seller-name">Seller Name</label>
+                <input type="text" id="seller-name" name="seller-name" placeholder="Enter seller name" required>
+
+                <label for="period">Time Period</label>
+                <select id="period" name="period">
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                </select>
+
+                <button type="submit">Search</button>
+            </form>
+        </section>
+
+        
+        <section class="features">
+            <div class="feature-card">
+                <h4>Sales Tracking</h4>
+                <p>View performance over different periods.</p>
+            </div>
+
+            <div class="feature-card">
+                <h4>Business Insights</h4>
+                <p>Identify growth and performance patterns.</p>
+            </div>
+
+            <div class="feature-card">
+                <h4>Inventory Monitoring</h4>
+                <p>Track stock movement and availability.</p>
+            </div>
+        </section>
+
+    </main>
+    <script src="home.js"></script>
+
+    
+    <footer>
+        <p>&copy; 2026 KeepUp. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
