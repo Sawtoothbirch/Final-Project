@@ -21,7 +21,7 @@ header {
     text-align: center;
     margin-bottom: 30px;
     padding: 20px;
-    background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+    
     color: white;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -37,35 +37,7 @@ header p {
     opacity: 0.9;
 }
 
-nav {
-    display: flex;
-    justify-content: center;
-    background-color: white;
-    border-radius: 10px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-}
 
-nav a {
-    padding: 15px 30px;
-    text-decoration: none;
-    color: #4b6cb7;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-nav a:hover {
-    background-color: #f0f5ff;
-}
-
-nav a.active {
-    background-color: #4b6cb7;
-    color: white;
-}
 
 main {
     background-color: white;
@@ -76,27 +48,11 @@ main {
 }
 
 
-.submit-btn {
-    background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 6px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    margin-top: 10px;
-}
+
 
 .submit-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(75, 108, 183, 0.4);
+    box-shadow: 0 5px 15px rgba(239, 241, 244, 0.4);
 }
 
 .period-selector {
@@ -107,7 +63,7 @@ main {
 }
 
 .period-selector h2 {
-    color: #2c3e50;
+    color: #fdfdfd;
     margin-bottom: 20px;
 }
 
@@ -133,13 +89,13 @@ main {
 }
 
 .period-btn:hover {
-    border-color: #4b6cb7;
-    color: #4b6cb7;
+    border-color: #fdfeff;
+    color: #f9f9f9;
 }
 
 .period-btn.active {
-    background-color: #4b6cb7;
-    border-color: #4b6cb7;
+    background-color: #f4f5f7;
+    border-color: #f5f5f5;
     color: white;
 }
 
@@ -152,7 +108,7 @@ main {
 
 .filter-btn {
     padding: 12px 25px;
-    background-color: #4b6cb7;
+    background-color: #eef0f5;
     color: white;
     border: none;
     border-radius: 6px;
@@ -167,7 +123,7 @@ main {
 }
 
 .filter-btn:hover {
-    background-color: #3a5999;
+    background-color: #f4f5f7;
 }
 
 .summary-cards {
@@ -417,4 +373,101 @@ button:hover {
 }
 button:active {
     background-color: navy;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* Navbar base */
+.navbar {
+    height: 70px;
+    background: linear-gradient(90deg, #0f172a, #1e293b);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 36px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+
+    /* Hidden by default */
+    transform: translateY(-100%);
+    transition: transform 0.35s ease-in-out;
+}
+
+/* Show navbar when user hovers near top */
+header:hover .navbar {
+    transform: translateY(0);
+}
+
+/* Logo */
+.logo {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #22d3ee;
+    white-space: nowrap;
+}
+
+/* Nav links container */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 28px;
+}
+
+/* Links */
+.nav-links a {
+    color: #e5e7eb;
+    text-decoration: none;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+}
+
+/* Underline animation */
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 2px;
+    background-color: #22d3ee;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links .active {
+    color: #22d3ee;
+}
+
+.nav-links a:hover::after,
+.nav-links .active::after {
+    width: 100%;
+}
+
+
+main {
+    padding-top: 90px;
+}
+
+/* ===== RESPONSIVE NAVBAR ===== */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+    }
 }
